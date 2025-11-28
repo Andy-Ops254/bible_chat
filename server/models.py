@@ -1,0 +1,53 @@
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import Validates
+
+db = SQLAlchemy()
+
+class User(db.Model, SerializerMixin):
+    __tableName__ = 'users'
+
+    id =db.Column(db.Integer, primary_Key=True)
+    email = db.Column(db.String, nullable=False)
+    password_hash = db.Column(db.String)
+    created_at =db.Column(db.DateTime, server_default=db.func.now())
+
+    def __repr__(self):
+        return f'<User email{self.email}, created_at{self.email}>'
+
+
+class Daily_reading (db.model, SerializerMixin):
+    __tableName__ = 'daily_readings'
+
+    id = db.Column (db.Integer, primary_key=True)
+    date = db.Column(db.DateTime, server_default=db.func.now())
+    scripture = db.Column(db.Text)
+
+    def __repr__(self):
+        return f'<Daily_readings date={self.date}, scripture={self.scripture}>'
+
+
+class Reading_logs(db.model, SerializerMixin):
+    __tableName__='reading_logs'
+
+    id=db.Column(db.Integer, primary_key=True)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
+    daily_readings_id = db.Column(db.Integer, db.ForeignKey('daily_readings.id'))
+    completed = db.Column(db.Boolean, nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    def __repr__(self):
+        return f'<Reading_logs user_id={self.user_id},daily_readings_id={self.daily_readings_id}, completed={self.completed}, created_at= {self.created_at}>'
+
+
+class Emotion_logs(db.Model, SerializerMixin):
+    __tableName__='emotion_logs'
+
+    id= db.Column(db.Integer, primark_key=True)
+    users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    emotion_text=db.Column(db.Text, nullable=False)
+    scripture = db.Column(db.Text)
+    time = db.Column(db.DateTime, server_default=db.func.now())
+
+    def __repr__(self):
+        return f'<Emotion_log users_id={self.users_id}, emotion_text = {self.emotion_text}, scripture={self.scripture}, time={self.time}>'
