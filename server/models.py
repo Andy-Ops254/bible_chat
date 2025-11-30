@@ -1,13 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.orm import Validates
+from sqlalchemy.orm import validates, declarative_base
+from sqlalchemy import MetaData
+
 
 db = SQLAlchemy()
+# this is like the blueprint of how the models will be created 
+# Base = declarative_base()
 
 class User(db.Model, SerializerMixin):
-    __tableName__ = 'users'
+    __tablename__ = 'users'
 
-    id =db.Column(db.Integer, primary_Key=True)
+    id =db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, nullable=False)
     password_hash = db.Column(db.String)
     created_at =db.Column(db.DateTime, server_default=db.func.now())
@@ -20,8 +24,8 @@ class User(db.Model, SerializerMixin):
         return f'<User email{self.email}, created_at{self.email}>'
 
 
-class Daily_reading (db.model, SerializerMixin):
-    __tableName__ = 'daily_readings'
+class Daily_reading (db.Model, SerializerMixin):
+    __tablename__ = 'daily_readings'
 
     id = db.Column (db.Integer, primary_key=True)
     date = db.Column(db.DateTime, server_default=db.func.now())
@@ -34,8 +38,8 @@ class Daily_reading (db.model, SerializerMixin):
         return f'<Daily_readings date={self.date}, scripture={self.scripture}>'
 
 
-class Reading_logs(db.model, SerializerMixin):
-    __tableName__='reading_logs'
+class Reading_logs(db.Model, SerializerMixin):
+    __tablename__='reading_logs'
 
     id=db.Column(db.Integer, primary_key=True)
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -51,9 +55,9 @@ class Reading_logs(db.model, SerializerMixin):
 
 
 class Emotion_logs(db.Model, SerializerMixin):
-    __tableName__='emotion_logs'
+    __tablename__='emotion_logs'
 
-    id= db.Column(db.Integer, primark_key=True)
+    id= db.Column(db.Integer, primary_key=True)
     users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     emotion_text=db.Column(db.Text, nullable=False)
     scripture = db.Column(db.Text)
