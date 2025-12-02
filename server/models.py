@@ -2,6 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates, declarative_base
 from sqlalchemy import MetaData
+from werkzeug.security import generate_password_hash
+from app import bcrypt
+
 
 
 db = SQLAlchemy()
@@ -18,6 +21,33 @@ class User(db.Model, SerializerMixin):
 
     emotion_logs=db.relationship('Emotion_log', back_populates='user')
     reading_logs=db.relationship('Reading_log',back_populates='user')
+
+    @validates ('email')
+    def validate_email (self, key, email):
+        if '@' not in email:
+            raise TypeError('Invalid email format!')
+        else:
+            return email
+    
+    @validates ('password')
+    def validate_password(self, key, password):
+        if len(password) < 8 :
+            raise ValueError("Password must be 8 character long !")
+        else:
+            return password
+
+    @property
+    def password(self):
+        raise AttributeError("Password is not readable!")
+    
+    @password.setter
+    def set_password(self, raw_password):
+        # validate is triggered here
+        self.validate_password("password", raw_password)
+        password_hash = bcrypt.generate_password_hash(
+                raw_password.encode('utf-8'))
+        # after validation generate the password hash
+        self.password_harsh =password_hash.decode('uft-8')
 
 
     def __repr__(self):
