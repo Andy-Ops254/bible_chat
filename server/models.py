@@ -1,15 +1,13 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates, declarative_base
 from sqlalchemy import MetaData
 from werkzeug.security import generate_password_hash
-from app import bcrypt
+from extension import db, bcrypt  # safe import
 
 
 
-db = SQLAlchemy()
-# this is like the blueprint of how the models will be created 
-# Base = declarative_base()
+
+
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
