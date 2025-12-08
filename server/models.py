@@ -17,8 +17,8 @@ class User(db.Model, SerializerMixin):
     password_hash = db.Column(db.String)
     created_at =db.Column(db.DateTime, server_default=db.func.now())
 
-    emotion_logs=db.relationship('Emotion_log', back_populates='user')
-    reading_logs=db.relationship('Reading_log',back_populates='user')
+    emotion_logs=db.relationship('Emotion_logs', back_populates='user')
+    reading_logs=db.relationship('Reading_logs',back_populates='user')
 
     @validates ('email')
     def validate_email (self, key, email):
@@ -26,26 +26,20 @@ class User(db.Model, SerializerMixin):
             raise TypeError('Invalid email format!')
         else:
             return email
-    
-    @validates ('password')
-    def validate_password(self, key, password):
-        if len(password) < 8 :
-            raise ValueError("Password must be 8 character long !")
-        else:
-            return password
 
     @property
     def password(self):
         raise AttributeError("Password is not readable!")
     
     @password.setter
-    def set_password(self, raw_password):
+    def password(self, raw_password):
+        if len(raw_password) < 8 :
+            raise ValueError("Password must be 8 character long !")
         # validate is triggered here
-        self.validate_password("password", raw_password)
         password_hash = bcrypt.generate_password_hash(
                 raw_password.encode('utf-8'))
         # after validation generate the password hash
-        self.password_harsh =password_hash.decode('uft-8')
+        self.password_hash =password_hash.decode('utf-8')
 
 
     def __repr__(self):
@@ -59,7 +53,7 @@ class Daily_reading (db.Model, SerializerMixin):
     date = db.Column(db.DateTime, server_default=db.func.now())
     scripture = db.Column(db.Text)
 
-    reading_logs= db.relationship('Reading_logs', back_populates='daily_reading', cascade='all, delete-orphan')
+    reading_logs= db.relationship('Reading_logs', back_populates='daily_reading')
 
 
     def __repr__(self):
@@ -76,7 +70,7 @@ class Reading_logs(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
     user=db.relationship('User', back_populates='reading_logs')
-    daily_reading = db.relationship('Daily_reading', back_populates='reading_logs', cascade='all, delete-orphan')
+    daily_reading = db.relationship('Daily_reading', back_populates='reading_logs')
 
     def __repr__(self):
         return f'<Reading_logs user_id={self.user_id},daily_readings_id={self.daily_readings_id}, completed={self.completed}, created_at= {self.created_at}>'
