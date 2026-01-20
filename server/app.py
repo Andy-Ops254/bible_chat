@@ -23,6 +23,8 @@ def create_app():
     bcrypt.init_app(app)
     db.init_app(app)
     jwt.init_app(app)
+    migrate.init_app(app, db)       
+
 
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
@@ -102,8 +104,8 @@ def create_app():
         blacklist.add(jti) #adds token to blocklist
         return jsonify({"message": "Successfully logged out"}), 200
         
+
     
-        
     return app
 
 if __name__ == "__main__":

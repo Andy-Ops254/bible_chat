@@ -51,6 +51,7 @@ class Daily_reading (db.Model, SerializerMixin):
 
     id = db.Column (db.Integer, primary_key=True)
     date = db.Column(db.DateTime, server_default=db.func.now())
+    scripture_reference = db.Column(db.String)
     scripture = db.Column(db.Text)
 
     reading_logs= db.relationship('Reading_logs', back_populates='daily_reading')
@@ -80,13 +81,55 @@ class Emotion_logs(db.Model, SerializerMixin):
     __tablename__='emotion_logs'
 
     id= db.Column(db.Integer, primary_key=True)
-    users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     emotion_text=db.Column(db.Text, nullable=False)
     scripture = db.Column(db.Text)
     time = db.Column(db.DateTime, server_default=db.func.now())
 
     user=db.relationship('User', back_populates='emotion_logs')
 
-
     def __repr__(self):
         return f'<Emotion_log users_id={self.users_id}, emotion_text = {self.emotion_text}, scripture={self.scripture}, time={self.time}>'
+
+
+class Bible_books(db.Model, SerializerMixin):
+    __tablename__='bible_books'
+
+    id = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String)
+    order = db.Column(db.Integer)
+    abbreviation = db.Column (db.String)
+# 1 to many relationship
+    chapters=db.relationship('Bible_chapters',backref='book')
+
+    def __repr__(self):
+        return f'Book name={self.name}, order={self.order}'
+
+
+
+class Bible_chapters(db.Model, SerializerMixin):
+    __tablename__='bible_chapters'
+    id = db.Column(db.String, primary_key=True)
+    books_id = db.Column(db.String, db.ForeignKey('bible_books.id'))
+    chapter_number = db.Column(db.Integer)
+
+# 1 to many relationship
+    verses=db.relationship('Bible_verses',backref='chapter')
+
+    def __repr__(self):
+        return f'Chapter books_id={self.books_id}, chapter_number={self.chapter_number}'
+
+
+
+class Bible_verses(db.Model, SerializerMixin):
+    __tablename__='bible_verses'
+    id = db.Column(db.String, primary_key=True)
+    chapters_id = db.Column(db.String, db.ForeignKey('bible_chapters.id'))
+    verse_number = db.Column(db.Integer)
+    text=db.Column(db.Text)
+
+    def __repr__(self):
+        return f'Verses chapters_id={self.chapters_id}, verse_number={self.verse_number}'
+
+
+    
