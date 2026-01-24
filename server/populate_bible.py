@@ -196,6 +196,217 @@ def populate_bible():
         print(f"Verses added: {verse_count}")
         print("=" * 60)
 
+#Checking to see which bboks are missing in the Db
+def check_missing_content():
+    with app.app_context():
+        print("=" * 60)
+        print("Analysing Content")
+        print ('=' * 60)
+
+        missing_books = []
+        missing_chapters= []
+        total_missing_chapters = 0
+
+        for book in BIBLE_BOOKS:
+            book_id = book['id']
+            book_name = book [ 'name']
+            expected_chapters = book['chapters']
+
+            db_books = Bible_books.query.filter_by(id=book_id).first()
+
+            if not db_books:
+                missing_books.append('book')
+                total_missing_chapters += expected_chapters
+                print(f" MISSING BOOK: {book_name} ({expected_chapters} chapters)")
+
+#check on chapters
+        for chapter_num in range (1, expected_chapters + 1):
+            chapter_id = f"{book.id}.{chapter_num}"
+            db_chapter = Bible_chapters.query.filter_by(id=chapter_id).first()
+
+            if not db_chapter:
+                missing_chapters.append({
+                    'book_id': book_id,
+                    'book_name': book_name,
+                    "chapter": chapter_num
+                })
+        print("\n" + "=" * 60)
+        print(" SUMMARY")
+        print("=" * 60)
+        print(f"Missing Books: {len(missing_books)}")
+        print(f"Missing Chapters: {len(missing_chapters)}")
+        print(f"Total chapters to fetch: {len(missing_chapters) + total_missing_chapters}")
+        
+        if missing_books:
+            print("\n Missing Books:")
+            for book in missing_books:
+                print(f"  - {book['name']}")
+        
+        if missing_chapters:
+            print(f"\n Missing Chapters (showing first 20):")
+            for chapter in missing_chapters[:20]:
+                print(f"  - {chapter['book_name']} {chapter['chapter']}")
+            if len(missing_chapters) > 20:
+                print(f"  ... and {len(missing_chapters) - 20} more")
+        
+        return missing_books, missing_chapters
+
+
+def fetch_chapter(book_name, chapter_num, retry=3):
+    """Fetch a chapter with retry logic"""
+    url = f"{BASE_URL}/{book_name.replace(' ', '+')}+{chapter_num}"
+    
+    for attempt in range(retry):
+        try:
+            response = requests.get(url, timeout=15)
+            if response.status_code == 200:
+                return response.json()
+            elif response.status_code == 404:
+                # Try alternative formatting
+                alt_name = book_name.replace(' ', '')
+                url_alt = f"{BASE_URL}/{alt_name}+{chapter_num}"
+                response = requests.get(url_alt, timeout=15)
+                if response.status_code == 200:
+                    return response.json()
+            
+            time.sleep(2)  # Wait before retry
+        except Exception as e:
+            if attempt < retry - 1:
+                print(f"    Retry {attempt + 1}/{retry}...")
+                time.sleep(3)
+            else:
+                print(f"    ⚠ Failed after {retry} attempts: {e}")
+    
+    return None
+
+
+def fill_missing_content():
+    """Fill in the missing books and chapters"""
+    
+    missing_books, missing_chapters = check_missing_content()
+    
+    if not missing_books and not missing_chapters:
+        print("\n✅ No missing content! Database is complete.")
+        return
+    
+    print("\n" + "=" * 60)
+    print("🔧 FILLING MISSING CONTENT")
+    print("=" * 60)
+    
+    input("\nPress ENTER to start filling missing content...")
+    
+    with app.app_context():
+        filled_chapters = 0
+        filled_verses = 0
+        
+        # Fill missing books
+        for book in missing_books:
+            book_id = book['id']
+            book_name = book['name']
+            num_chapters = book['chapters']
+            
+            print(f"\n📚 Processing MISSING BOOK: {book_name}")
+            
+            # Add book
+            new_book = Bible_books(
+                id=book_id,
+                name=book_name,
+                abbreviation=book_id
+            )
+            db.session.add(new_book)
+            db.session.commit()
+            print(f"  ✓ Added book: {book_name}")
+            
+            # Add all chapters
+            for chapter_num in range(1, num_chapters + 1):
+                print(f"  📥 Fetching {book_name} {chapter_num}...")
+                chapter_data = fetch_chapter(book_name, chapter_num)
+                
+                if not chapter_data:
+                    print(f"    ❌ Failed to fetch")
+                    continue
+                
+                chapter_id = f"{book_id}.{chapter_num}"
+                new_chapter = Bible_chapters(
+                    id=chapter_id,
+                    book_id=book_id,
+                    chapter_number=chapter_num
+                )
+                db.session.add(new_chapter)
+                filled_chapters += 1
+                
+                # Add verses
+                verses = chapter_data.get('verses', [])
+                for verse in verses:
+                    verse_num = verse.get('verse')
+                    verse_text = verse.get('text', '').strip()
+                    verse_id = f"{book_id}.{chapter_num}.{verse_num}"
+                    
+                    new_verse = Bible_verses(
+                        id=verse_id,
+                        chapter_id=chapter_id,
+                        verse_number=verse_num,
+                        text=verse_text
+                    )
+                    db.session.add(new_verse)
+                    filled_verses += 1
+                
+                db.session.commit()
+                print(f"    ✓ Added {len(verses)} verses")
+                time.sleep(1)  # Be nice to API
+        
+        # Fill missing chapters
+        current_book = None
+        for chapter_info in missing_chapters:
+            book_id = chapter_info['book_id']
+            book_name = chapter_info['book_name']
+            chapter_num = chapter_info['chapter']
+            
+            if current_book != book_name:
+                print(f"\n📖 Processing: {book_name}")
+                current_book = book_name
+            
+            print(f"  📥 Fetching chapter {chapter_num}...")
+            chapter_data = fetch_chapter(book_name, chapter_num)
+            
+            if not chapter_data:
+                print(f"    ❌ Failed to fetch")
+                continue
+            
+            chapter_id = f"{book_id}.{chapter_num}"
+            new_chapter = Bible_chapters(
+                id=chapter_id,
+                book_id=book_id,
+                chapter_number=chapter_num
+            )
+            db.session.add(new_chapter)
+            filled_chapters += 1
+            
+            # Add verses
+            verses = chapter_data.get('verses', [])
+            for verse in verses:
+                verse_num = verse.get('verse')
+                verse_text = verse.get('text', '').strip()
+                verse_id = f"{book_id}.{chapter_num}.{verse_num}"
+                
+                new_verse = Bible_verses(
+                    id=verse_id,
+                    chapter_id=chapter_id,
+                    verse_number=verse_num,
+                    text=verse_text
+                )
+                db.session.add(new_verse)
+                filled_verses += 1
+            
+            db.session.commit()
+            print(f"    ✓ Added {len(verses)} verses")
+            time.sleep(1)
+        
+        print("\n" + "=" * 60)
+        print("✅ MISSING CONTENT FILLED!")
+        print("=" * 60)
+        print(f"Chapters added: {filled_chapters}")
+        print(f"Verses added: {filled_verses}")
 
 if __name__ == "__main__":
     try:
