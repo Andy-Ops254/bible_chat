@@ -97,7 +97,7 @@ class Bible_books(db.Model, SerializerMixin):
 
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
-    order = db.Column(db.Integer)
+    book_order = db.Column(db.Integer)
     abbreviation = db.Column (db.String)
 # 1 to many relationship
     chapters=db.relationship('Bible_chapters',backref='book')

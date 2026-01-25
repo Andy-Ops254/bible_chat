@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_jwt_extended import (
     create_access_token, jwt_required, get_jwt_identity, JWTManager, get_jwt
 )
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 
 
@@ -33,7 +33,7 @@ def create_app():
 
 
     # Import models here so Flask-Migrate sees them
-    from models import User, Daily_reading, Emotion_logs, Reading_logs
+    from models import User, Daily_reading, Emotion_logs, Reading_logs, Bible_books, Bible_chapters, Bible_verses
 
     @app.route('/login', methods=['POST'])
     def app_login ():
@@ -105,7 +105,19 @@ def create_app():
         return jsonify({"message": "Successfully logged out"}), 200
         
 
-    
+    app.route('/daily_reading', methods=["GET"])
+    def daily_reading ():
+        #picking the first day
+        starting_day = date(2026,1, 1)
+        today = date.today()
+        difference = today - starting_day
+        day_count = difference #this will b e like day_count =24
+
+        #verse allocation
+        verse_allocation = day_count & 30626
+        
+        #querying
+        daily_reading = Bible_verses.query.offset(verse_allocation).first()
     return app
 
 if __name__ == "__main__":
