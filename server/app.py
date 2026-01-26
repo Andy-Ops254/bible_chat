@@ -105,19 +105,47 @@ def create_app():
         return jsonify({"message": "Successfully logged out"}), 200
         
 
-    app.route('/daily_reading', methods=["GET"])
+    @app.route('/daily_reading', methods=['GET'])
     def daily_reading ():
+
         #picking the first day
         starting_day = date(2026,1, 1)
         today = date.today()
         difference = today - starting_day
-        day_count = difference #this will b e like day_count =24
+        day_count = difference.days #this will b e like day_count =24
+
+        #edge case if today is before the start date
+        if day_count < 0:
+            day_count = 0
 
         #verse allocation
-        verse_allocation = day_count & 30626
+        verse_allocation = day_count % 30626
         
-        #querying
-        daily_reading = Bible_verses.query.offset(verse_allocation).first()
+        #Multiple querying and table joining and ordering
+        verse= Bible_verses.query \
+                            .join(Bible_chapters, Bible_verses.chapters_id == Bible_chapters.id)\
+                            .join(Bible_books, Bible_chapters.books_id == Bible_books.id)\
+                            .order_by(Bible_books.book_order, Bible_chapters.chapter_number, Bible_verses.verse_number)\
+                            .offset(verse_allocation)\
+                            .first()
+        if not verse:
+            return jsonify({"error": "Daily reading not found"}, 404)
+        
+        #getting related information
+        chapter = Bible_chapters.query.filter_by(id=verse.chapters_id).first()
+        book = Bible_books.query.filter_by(id=chapter.books_id).first()
+
+
+        response = {
+            "date": str(today),
+            "book" : book.name,
+            "chapter" : chapter.chapter_number,
+            "verse" : verse.verse_number,
+            "reference" : f"{book.name} {chapter.chapter_number}: {verse.verse_number}",
+            "text": verse.text
+        }
+        return jsonify (response) ,200
+
     return app
 
 if __name__ == "__main__":
