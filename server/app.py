@@ -8,6 +8,7 @@ from flask_jwt_extended import (
     create_access_token, jwt_required, get_jwt_identity, JWTManager, get_jwt
 )
 from datetime import datetime, timedelta, date
+from emotion_verses import get_verse_for_emotion, detect_emotion
 
 
 
@@ -145,6 +146,33 @@ def create_app():
             "text": verse.text
         }
         return jsonify (response) ,200
+
+#Emotionchatbot endpoint
+    @app.route('/chatbot/emotion', methods=['POST'])
+    def emotion_chat():
+        #request from client
+        data =request.json()
+
+        if not data:
+            return jsonify({"error": "Emotion input required!"}), 400
+        
+        emotion_text = data.get('emotion_text')
+        if not emotion_text:
+            return jsonify({"error": "No emotion detected, try again!"}), 400
+        
+        if len(emotion_text) <250:
+            return jsonify({"error": "Emotion text exceeds 250 characters!"}), 400
+        
+        #getting the user id
+        user_id = get_jwt_identity()
+
+        #detectemotion
+        detected_emotion= detect_emotion(emotion_text)
+
+        #get the verse ID for identified emotion
+        verse_id = get_verse_for_emotion(detected_emotion)
+
+
 
     return app
 
