@@ -5,9 +5,9 @@ from flask_migrate import Migrate
 from extension import db, bcrypt
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_jwt_extended import (
-    create_access_token, jwt_required, get_jwt_identity, JWTManager, get_jwt
+    create_access_token, create_refresh_token, jwt_required, get_jwt_identity, JWTManager, get_jwt
 )
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date,timezone
 from emotion_verses import get_verse_for_emotion, detect_emotion
 
 
@@ -59,16 +59,25 @@ def create_app():
         # Generate the tokens
         access_token = create_access_token(
             identity={"user_id": user.id, "email": user.email},
-            expires_delta=timedelta(hours=1))
+            expires_delta=timedelta(days=7))
+        refresh_token = create_refresh_token(identity={"user_id": user.id, "email": user.email})
 
         return jsonify({
             "message": "Login Successful",
             "access_token": access_token,
+            "refresh_token": refresh_token,
             "user": {
                 "id": user.id,
                 "email": user.email
             }
         }), 200
+
+    @app.route('/token/refresh', methods=['POST'])
+    @jwt_required(refresh=True)
+    def refresh_token():
+        identity = get_jwt_identity()
+        new_access = create_access_token(identity=identity, expires_delta=timedelta(hours=24))
+        return jsonify({"access_token": new_access}), 200
 
 
     @app.route('/register', methods=['POST'])
@@ -149,9 +158,10 @@ def create_app():
 
 #Emotionchatbot endpoint
     @app.route('/chatbot/emotion', methods=['POST'])
+    @jwt_required()
     def emotion_chat():
         #request from client
-        data =request.json()
+        data =request.get_json()
 
         if not data:
             return jsonify({"error": "Emotion input required!"}), 400
@@ -160,17 +170,80 @@ def create_app():
         if not emotion_text:
             return jsonify({"error": "No emotion detected, try again!"}), 400
         
-        if len(emotion_text) <250:
+        if len(emotion_text) >250:
             return jsonify({"error": "Emotion text exceeds 250 characters!"}), 400
         
-        #getting the user id
-        user_id = get_jwt_identity()
+        #getting the user id (extract numeric id from JWT identity)
+        identity = get_jwt_identity()
+        user_id = identity.get('user_id') if isinstance(identity, dict) else identity
+        if not user_id:
+            return jsonify({"error": "Authentication required"}), 401
 
         #detectemotion
         detected_emotion= detect_emotion(emotion_text)
 
         #get the verse ID for identified emotion
         verse_id = get_verse_for_emotion(detected_emotion)
+
+        #querying the database for the verse, chater and book
+        verse = Bible_verses.query.filter_by(id=verse_id).first()
+        if not verse:
+            return jsonify({"error": "Verse not found in the Database!"}), 404
+        
+        chapter = Bible_chapters.query.filter_by(id=verse.chapters_id).first()
+
+        book= Bible_books.query.filter_by(id=chapter.books_id).first()
+
+        #create scripture response
+        scripture_reference = f"{book.name}, {chapter.chapter_number}:{verse.verse_number}"
+
+#creating emotion log
+        emotion_log =Emotion_logs(
+            user_id= user_id,
+            emotion_text = emotion_text,
+            scripture = scripture_reference,
+            time = datetime.now(timezone.utc).isoformat()
+        )
+        db.session.add(emotion_log)
+        db.session.commit()
+
+# Create custom messages based on emotion
+        ENCOURAGEMENT_MESSAGES = {
+            "anxious": "God cares about your worries. Cast your anxieties on Him.",
+            "sad": "God is close to the brokenhearted. He understands your pain.",
+            "angry": "God gives us wisdom to handle our anger with grace.",
+            "grateful": "Gratitude is a beautiful response to God's blessings.",
+            "lonely": "You are never alone. God is always with you.",
+            "fearful": "God has not given you a spirit of fear, but of power and love.",
+            "joyful": "Rejoice in the Lord! Your joy comes from Him.",
+            "hopeless": "There is always hope in God. He has plans for your good.",
+            "confused": "God will give you wisdom and guide your path.",
+            "tired": "Come to God and find rest for your soul.",
+            "guilty": "God's forgiveness is complete. Accept His grace."
+        }
+
+        # Get message or use default
+        message = ENCOURAGEMENT_MESSAGES.get(
+            detected_emotion,
+            "God is with you in every season of life."
+        )
+
+        response = {
+    "emotion_detected": detected_emotion if detected_emotion else "general",
+    "verse": {
+        "id": verse.id,
+        "reference": scripture_reference,
+        "book": book.name,
+        "chapter": chapter.chapter_number,
+        "verse_number": verse.verse_number,
+        "text": verse.text
+    },
+    "message": message,
+    "log_id": emotion_log.id
+}
+
+        return jsonify(response), 200
+
 
 
 

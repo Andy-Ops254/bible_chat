@@ -191,7 +191,7 @@ DEFAULT_VERSES = [
 def detect_emotion(emotion_text):
     #convert to lowercase for matching
     text_lower = emotion_text.lower()
-    for emotion, verses in EMOTION_VERSES.item():
+    for emotion, verses in EMOTION_VERSES.items():
         if emotion in text_lower:
             return emotion
     #if no emotion detected return none
@@ -204,7 +204,7 @@ def get_verse_for_emotion(emotion):
     #generates a list for that emotion and picks a random verse based on the emotion
     emotion = emotion.strip().lower()
     if emotion in EMOTION_VERSES:
-        verse_List = EMOTION_VERSES['emotion']
+        verse_List = EMOTION_VERSES[emotion]
         return random.choice(verse_List)
     else:
         return random.choice(DEFAULT_VERSES)
