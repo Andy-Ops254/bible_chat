@@ -1,5 +1,6 @@
 from flask import Flask, request,jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from config import Config
 from flask_migrate import Migrate
 from extension import db, bcrypt
@@ -24,7 +25,8 @@ def create_app():
     bcrypt.init_app(app)
     db.init_app(app)
     jwt.init_app(app)
-    migrate.init_app(app, db)       
+    migrate.init_app(app, db) 
+    CORS(app)
 
 
     @jwt.token_in_blocklist_loader
