@@ -1,8 +1,15 @@
 import React from 'react'
 import 'boxicons/css/boxicons.min.css';
+import { useNavigate } from "react-router-dom";
+
 
 
 function About() {
+    const  navigate = useNavigate()
+
+     function handleClick (){
+        navigate("/register")
+     }
   return (
     <div>
         <img
@@ -22,7 +29,9 @@ function About() {
                 offering peace, hope, and a deeper connection with God."
             </p>
         
-                <button className='font-bold bg-blue-400 p-4 rounded-full mt-4 hover:bg-blue-500 hover:text-green-300'>
+                <button 
+                className='font-bold bg-blue-400 p-4 rounded-full mt-4 hover:bg-blue-500 hover:text-green-300'
+                onClick={handleClick}>
                 TRY NOW 
                 <i className="bx bx-arrow-out-up-right-square px-[1.8px] font-light" />
                 </button>
