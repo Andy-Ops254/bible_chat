@@ -4,8 +4,8 @@ import { useState } from 'react'
 
 function Register() {
     const [register, setRegister] = useState ({
-        email:' ',
-        password: ' '
+        email:"",
+        password:""
     })
 
     const navigate = useNavigate()
@@ -36,43 +36,62 @@ function Register() {
 
         .then(data =>{
             console.log("Success", data),
+            navigate("/login")
             setRegister ({
                 'email': '',
                 'password': ''
             })
         })
-        navigate("/login")
+        
 
     }
   return (
-    <div>
-        <h1>"Scripture for Every Season"</h1>
-        <form onSubmit={handleSubmit} >
-            <input 
+    <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'>
+
+        <h1 className='text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8'>
+            "Scripture for Every Season"
+        </h1>
+
+        <form
+        onSubmit={handleSubmit}
+        className='flex flex-col space-y-4 '
+        >
+            <input
+            className='w-full h-12 px-4 py-3 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             type='text' 
             name='email' 
-            placeholder='Email'
             value={register.email}
+            placeholder='Email'
             onChange={handleChange}
             required 
             />
 
             <input 
+            className='w-full h-12 px-4 py-3 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             type='text'
             name='password'
-            placeholder='Password'
             value={register.password}
+            placeholder='Password'
             onChange={handleChange}
             required
             />
 
-            <button type='submit' >
+            <button 
+            type='submit'
+            className='w-full h-12 mt-6 rounded-lg bg-blue-600 text-white font-semibold text-base hover:bg-blue-700 active:bg-blue-800 transition-colors duration-200'
+            >
                 Create Account
                 </button>
         </form>
 
-        <p>Already have an account? 
-            <Link to={'/login'} >LogIn here</Link>
+        <p className='font-light tracking-wider text-base text-center mt-6'>
+            Already have an account? 
+            <Link 
+            to={'/login'} 
+            className='font-medium hover:text-blue-500 px-2'
+            >
+                LogIn here
+            </Link>
         </p>
     </div>
   )
