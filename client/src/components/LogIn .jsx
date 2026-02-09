@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
-function LogIn () {
+function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
 
     const navigate = useNavigate()
 
@@ -41,7 +41,7 @@ function LogIn () {
     })
     .then(data => {
         console.log("Green", data)
-        navigate ('/home')
+        // navigate ('/home')
 
         setlogData ({
             email: '',
@@ -55,7 +55,11 @@ function LogIn () {
     });
 }
   return (
-    <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'>
+    // Backdrop
+    <div className='fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center' onClick={onCloseLoginModal}>
+        {/* form container */}
+        <div className='bg-white rounded-2xl shadow-xl p-8 max-w-md w-full mx-4'>
+        <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'>
         <h1 className='text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8'>
             "Bonga Na God Binadamu Huzima Simu!"
         </h1>
@@ -95,13 +99,17 @@ function LogIn () {
         className='font-light tracking-wider text-base text-center mt-6'
         >
             Don't have an Account?
-            <Link to= {'/register'}
-            className='font-medium hover:text-blue-500 px-2'
+            <button
+            type='button'
+            onClick={onSwitchToRegister}
+            className='font-medium hover:text-blue-500 px-2 underline cursor-pointer transition-colors'
             >
                 SIGN UP HERE
-            </Link>
+            </button>
         </p>
 
+    </div>
+    </div>
     </div>
   )
 }

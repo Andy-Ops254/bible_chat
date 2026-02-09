@@ -2,13 +2,13 @@ import React from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
-function Register() {
+function Register({onCloseRegisterModal, onSwitchToLogin}) {
     const [register, setRegister] = useState ({
         email:"",
         password:""
     })
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     function handleChange(e) {
         const{name, value} =e.target
@@ -36,7 +36,7 @@ function Register() {
 
         .then(data =>{
             console.log("Success", data),
-            navigate("/login")
+            // navigate("/login")
             setRegister ({
                 'email': '',
                 'password': ''
@@ -46,7 +46,14 @@ function Register() {
 
     }
   return (
-    <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'>
+    // backdrop div
+    <div className='fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center' onClick={onCloseRegisterModal}>
+
+        {/* form container*/}
+        <div className='bg-white rounded-2xl shadow-xl p-8 max-w-md w-full mx-4'>
+
+        {/* form details and functionalities */}
+        <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'>
 
         <h1 className='text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8'>
             "Scripture for Every Season"
@@ -86,13 +93,16 @@ function Register() {
 
         <p className='font-light tracking-wider text-base text-center mt-6'>
             Already have an account? 
-            <Link 
-            to={'/login'} 
-            className='font-medium hover:text-blue-500 px-2'
+            <button
+            type='button'
+            className='font-medium hover:text-blue-500 px-2 cursor-pointer underline transition-colors'
+            onClick={onSwitchToLogin}
             >
                 LogIn here
-            </Link>
+            </button>
         </p>
+    </div>
+    </div>
     </div>
   )
 }
