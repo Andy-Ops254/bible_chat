@@ -1,50 +1,64 @@
 import React from 'react'
 import 'boxicons/css/boxicons.min.css';
-import { useNavigate } from "react-router-dom";
-import {useState} from 'react'
-import Navbar from './Navbar';
+import {useState, useEffect} from 'react'
 import LogIn from './LogIn ';
 import Register from './Register';
 
 
 
 function About() {
-    const  navigate = useNavigate()
+    // const  navigate = useNavigate()
 
     // state for the modals
-    const[registerModal, showRegisterModal] = useState(false)
-    const [loginModal, showLoginModal] = useState(false)
+    const[showRegisterModal, setShowRegisterModal] = useState(false)
+    const [showLoginModal, setShowLoginModal] = useState(false)
+
+
+ // useEffect to prevent scrolling on the backdrop
+    useEffect(() => {
+        if(showLoginModal || showRegisterModal) {
+            document.body.style.overflow = 'hidden'
+        }
+        else {
+            document.body.style.overflow=''
+        }
+
+        return () => {
+            document.body.style.overflow= ''
+        }
+        
+
+    }, [showLoginModal,showRegisterModal])
 
     // functions for the modal
     function openRegisterModal() {
-        showRegisterModal(true);
+        setShowRegisterModal(true);
     }
 
     function openLoginModal() {
-        showLoginModal(true)
+        setShowLoginModal(true)
     }
 
     function closeRegisterModal() {
-        showRegisterModal(false)
+        setShowRegisterModal(false)
     }
 
     function closeLoginModal() {
-        showLoginModal(false)
+        setShowLoginModal(false)
     }
 
     // functions for the links
     function switchToLogin() {
         
-            showRegisterModal(false)
-            showLoginModal(true)
+            setShowRegisterModal(false)
+            setShowLoginModal(true)
         }
     
 
     function switchToRegister() {
-        showLoginModal(false)
-        showRegisterModal(true)
+        setShowLoginModal(false)
+        setShowRegisterModal(true)
     }
-    
 
     //  function handleClick (){
     //     navigate("/register")
@@ -71,7 +85,7 @@ function About() {
             </p>
         
                 <button 
-                className='font-bold bg-blue-700 p-4 rounded-lg mt-4 hover:bg-blue-500 hover:text-green-300 active:bg-blue-800 transition-colors duration-200'
+                className='font-bold bg-blue-700 p-4 rounded-lg mt-4 hover:bg-blue-500 hover:text-green-300 active:bg-blue-800 transition-colors duration-200 cursor-pointer'
                 onClick={openRegisterModal}>
                 TRY NOW 
                 <i className="bx bx-arrow-out-up-right-square px-[1.8px] font-light" />
@@ -79,10 +93,16 @@ function About() {
             
         </div>
 
-    {/* Props */}
-    <Navbar onOpenLoginModal={openLoginModal} />
-    <Register onSwitchToLogin={switchToLogin} onCloseRegisterModal={closeRegisterModal} />
-    <LogIn onSwitchToRegister={switchToRegister} onCloseLoginModal={closeLoginModal} />
+    {/* Conditional rendering so that when state changes the forms render accordingly */}
+        {/* <Navbar onOpenLoginModal={openLoginModal} /> */}
+        
+    {showRegisterModal && (
+        <Register onSwitchToLogin={switchToLogin} onCloseRegisterModal={closeRegisterModal} /> 
+        )}
+
+    {showLoginModal && (
+        <LogIn onSwitchToRegister={switchToRegister} onCloseLoginModal={closeLoginModal} />
+        )}
     </div>
     
   )

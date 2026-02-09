@@ -12,10 +12,11 @@ function Navbar({onOpenLoginModal}) {
         <div className='flex items-center gap-12'>
             <Link to ="/" className='text-base tracking-wider hover:text-gray-300 z-50'>HOME</Link>
             {/* <Link to ="/about" className='text-base tracking-wider hover:text-gray-300 z-50' >ABOUT</Link> */}
-            <Link to ="/login"
+            <button
+            type='button'
             className='text-base tracking-wider hover:text-gray-300 z-50 '
             onClick={onOpenLoginModal}
-            >LOGIN</Link>
+            >LOGIN</button>
             {/* <Link to ="/register">SIGNUP</Link> */}
         </div>
 

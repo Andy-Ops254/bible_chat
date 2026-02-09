@@ -1,10 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
 
 function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const [logData, setlogData] = useState({
         email:"",
@@ -21,12 +20,12 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
         ...logData
     }
 
-    function handleSubmit(){
+    function handleSubmit(e){
     
         e.preventDefault()
     
-    fetch('http:127.0.0.1:5555/login', {
-        methods:"POST", 
+    fetch('/login', {
+        method:"POST", 
         headers: {
             "Content-Type": "application/json"
         },
@@ -37,7 +36,7 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
         if (!response.ok){
             throw new Error ("LogIn failed")
         }
-        return response.json
+        return response.json()
     })
     .then(data => {
         console.log("Green", data)
@@ -56,10 +55,10 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
 }
   return (
     // Backdrop
-    <div className='fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center' onClick={onCloseLoginModal}>
+    <div className='fixed inset-0 bg-gray bg-opacity-20 backdrop-blur-md z-50 flex items-center justify-center cursor-pointer' onClick={onCloseLoginModal}>
         {/* form container */}
-        <div className='bg-white rounded-2xl shadow-xl p-8 max-w-md w-full mx-4'>
-        <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'>
+        <div className='bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full mx-4' onClick={(e) => e.stopPropagation()}>
+        {/* <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'> */}
         <h1 className='text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8'>
             "Bonga Na God Binadamu Huzima Simu!"
         </h1>
@@ -79,7 +78,7 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
 
             <input 
             className='w-full h-12 px-4 py-3 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-            type='text'
+            type='password'
             name='password'
             value={logData.password}
             placeholder='password'
@@ -110,7 +109,7 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
 
     </div>
     </div>
-    </div>
+    // </div>
   )
 }
 

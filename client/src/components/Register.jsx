@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link,useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 function Register({onCloseRegisterModal, onSwitchToLogin}) {
@@ -19,8 +18,8 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
 
     function handleSubmit(){
         e.preventDefault()
-        fetch('http//127.0.0.1:5555/users', {
-            methods:'POST',
+        fetch('/users', {
+            method:'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -31,7 +30,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
             if (!res.ok) {
                 throw new Error("Invalid Login")
             }
-        return res.json
+        return res.json()
         })
 
         .then(data =>{
@@ -47,13 +46,13 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
     }
   return (
     // backdrop div
-    <div className='fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center' onClick={onCloseRegisterModal}>
+    <div className='fixed inset-0 bg-gray bg-opacity-20 backdrop-blur-md z-50 flex items-center justify-center cursor-pointer' onClick={onCloseRegisterModal}>
 
         {/* form container*/}
-        <div className='bg-white rounded-2xl shadow-xl p-8 max-w-md w-full mx-4'>
+        <div className='bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full mx-4' onClick={(e) => e.stopPropagation()}>
 
         {/* form details and functionalities */}
-        <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'>
+        {/* <div className='max-w-md w-full mx-auto p-8 sm:p-10 bg-white space-y-8 rounded-2xl shadow-2xl'> */}
 
         <h1 className='text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8'>
             "Scripture for Every Season"
@@ -75,7 +74,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
 
             <input 
             className='w-full h-12 px-4 py-3 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-            type='text'
+            type='password'
             name='password'
             value={register.password}
             placeholder='Password'
@@ -103,7 +102,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
         </p>
     </div>
     </div>
-    </div>
+    // </div>
   )
 }
 
