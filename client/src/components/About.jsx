@@ -85,7 +85,8 @@ function About() {
             </p>
         
                 <button 
-                className='font-bold bg-blue-700 p-4 rounded-lg mt-4 hover:bg-blue-500 hover:text-green-300 active:bg-blue-800 transition-colors duration-200 cursor-pointer'
+                className='font-bold bg-blue-700 p-4 rounded-lg mt-4 hover:bg-blue-500 hover:text-green-300
+                active:bg-blue-800 transition-colors duration-200 cursor-pointer'
                 onClick={openRegisterModal}>
                 TRY NOW 
                 <i className="bx bx-arrow-out-up-right-square px-[1.8px] font-light" />

@@ -46,7 +46,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
     }
   return (
     // backdrop div
-    <div className='fixed inset-0 bg-gray bg-opacity-20 backdrop-blur-md z-50 flex items-center justify-center cursor-pointer' onClick={onCloseRegisterModal}>
+    <div className='fixed inset-0 bg-opacity-20 backdrop-blur-md z-50 flex items-center justify-center cursor-pointer' onClick={onCloseRegisterModal}>
 
         {/* form container*/}
         <div className='bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full mx-4' onClick={(e) => e.stopPropagation()}>
