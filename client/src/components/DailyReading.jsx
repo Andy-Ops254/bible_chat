@@ -36,26 +36,41 @@ function DailyReading() {
     function daily_reading() {
       if(loading) {
         return (
-        <div>
-          <i className="bx bx-loader-lines-alt" />
-          <p>Loading verse ...</p>
+        <div className='flex flex-col items-center justify-center p-6'>
+          <i className="bx bx-loader-lines-alt text-3xl animate-spin" />
+
+          <p className='text-base mt-2 text-gray-600'>
+            Loading verse ...
+          </p>
+
         </div>)
       }
       else if (verse !==null) {
         return(
-          <div>
-            <h3>{verse.date}</h3>
-            <h1>{verse.text}</h1>
-            <h2>{verse.reference}</h2>
+          <div className='bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 md:p-8 max-w-3xl mx-auto my-6 flex flex-col gap-4 text-gray-900 dark:text-gray-100'>
+            <h3 className='text-xs md:text-sm text-gray-500 font-semibold font-serif'>
+              {verse.date}
+            </h3>
+
+            <h1 className='text-lg md:text-2xl lg:text-3xl font-serif font-bold mb-2 leading-relaxed'>
+              "{verse.text}"
+            </h1>
+
+            <h2 className='text-sm md:text-base text-gray-600 dark:text-gray-400 italic'>
+              "{verse.reference}"
+            </h2>
           </div>
         )
       }
 
       else{
         return(
-          <div>
-            <i className="bx bx-sad" />
-            <p>Couldn't load Verse....!</p>
+          <div className='flex flex-col items-center justify-center p-6 text-center text-gray-600'>
+            <i className="bx bx-sad text-3xl" />
+
+            <p className='mt-2'>
+              Couldn't load Verse...!
+            </p>
           </div>
         )
       }
