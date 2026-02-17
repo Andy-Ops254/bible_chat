@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
+function LogIn ({onCloseLoginModal, onSwitchToRegister, onLoginSuccess}) {
 
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const [logData, setlogData] = useState({
         email:"",
@@ -24,7 +25,7 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
     
         e.preventDefault()
     
-    fetch('/login', {
+    fetch('http://127.0.0.1:5555/login', {
         method:"POST", 
         headers: {
             "Content-Type": "application/json"
@@ -32,20 +33,26 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister}) {
         body: JSON.stringify(credentials)
     })
     .then(response => {
-        console.log("success", response.status)
+        // console.log("success", response.status)
         if (!response.ok){
             throw new Error ("LogIn failed")
         }
         return response.json()
     })
     .then(data => {
-        console.log("Green", data)
-        // navigate ('/home')
-
+        // console.log("Green", data)
+        // Store token in localStorage
+        localStorage.setItem('access_token', data.access_token)
+        localStorage.setItem('user', JSON.stringify(data.user))
+        
         setlogData ({
             email: '',
             password: ''
         })
+        onLoginSuccess()
+        // Navigate to daily reading page
+        navigate('/daily_reading')
+        onCloseLoginModal()
     
     })
 

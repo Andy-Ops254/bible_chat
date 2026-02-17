@@ -36,7 +36,7 @@ function DailyReading() {
     function daily_reading() {
       if(loading) {
         return (
-        <div className='flex flex-col items-center justify-center p-6'>
+        <div className='flex flex-col items-center justify-center p-6 mt-24'>
           <i className="bx bx-loader-lines-alt text-3xl animate-spin" />
 
           <p className='text-base mt-2 text-gray-600'>
@@ -47,7 +47,9 @@ function DailyReading() {
       }
       else if (verse !==null) {
         return(
-          <div className='bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 md:p-8 max-w-3xl mx-auto my-6 flex flex-col gap-4 text-gray-900 dark:text-gray-100'>
+          <div className='dark:bg-gray-900 rounded-2xl shadow-xl p-6 md:p-8 max-w-3xl
+          mx-auto my-30 flex flex-col gap-4 text-gray-900 dark:text-gray-100'>
+          
             <h3 className='text-xs md:text-sm text-gray-500 font-semibold font-serif'>
               {verse.date}
             </h3>

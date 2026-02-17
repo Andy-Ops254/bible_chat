@@ -4,13 +4,24 @@ import About from './About'
 import Register from './Register'
 import LogIn from './LogIn '
 import DailyReading from './DailyReading'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import ChatBot from './ChatBot'
 
 function App() {
-      // const  navigate = useNavigate()
+      const location = useLocation()
 
       // state for the modals
     const[showRegisterModal, setShowRegisterModal] = useState(false)
     const [showLoginModal, setShowLoginModal] = useState(false)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    // Check if user is already logged in on mount
+    useEffect(() => {
+        const token = localStorage.getItem('access_token')
+        if (token) {
+            setIsAuthenticated(true)
+        }
+    }, [])
 
    // useEffect to prevent scrolling on the backdrop
     useEffect(() => {
@@ -45,6 +56,16 @@ function App() {
         setShowLoginModal(false)
     }
 
+    function handleLogout() {
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('user')
+        setIsAuthenticated(false)
+    }
+
+    function handleLogin (){
+        setIsAuthenticated(true)
+    }
+
       // functions for the links
     function switchToLogin() {
             setShowRegisterModal(false)
@@ -55,13 +76,30 @@ function App() {
         setShowLoginModal(false)
         setShowRegisterModal(true)
     }
+
+
     return (
     <>
-    <Navbar onOpenLoginModal={openLoginModal} />
-    <About />
-    {showLoginModal && <LogIn onCloseLoginModal={closeLoginModal} onSwitchToRegister={switchToRegister} />}
-    {showRegisterModal && <Register onCloseRegisterModal={closeRegisterModal} onSwitchToLogin={switchToLogin} />}
-    <DailyReading />
+    <Navbar
+     onOpenLoginModal={openLoginModal}  
+     isAuthenticated={isAuthenticated} 
+     onLogout={handleLogout}/>
+
+    <Routes>
+        <Route path='/' element={<About />} />
+        <Route path='/daily_reading' element={<DailyReading />} />
+        <Route path ='/chatbot/emotion' element={<ChatBot />} />
+    </Routes>
+
+    {showLoginModal && 
+    <LogIn onCloseLoginModal={closeLoginModal} 
+    onSwitchToRegister={switchToRegister} 
+    onLoginSuccess={handleLogin} />}
+
+    {showRegisterModal
+     && <Register onCloseRegisterModal={closeRegisterModal} 
+     onSwitchToLogin={switchToLogin}  
+     onLoginSuccess={handleLogin}/>}
     </>
     )
 }

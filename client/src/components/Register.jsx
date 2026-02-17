@@ -26,7 +26,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
             body: JSON.stringify(registerData)
         })
         .then(res =>{
-            console.log("Success", res.status)
+            // console.log("Success", res.status)
             if (!res.ok) {
                 throw new Error("Invalid Login")
             }
@@ -34,12 +34,13 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
         })
 
         .then(data =>{
-            console.log("Success", data),
+            // console.log("Success", data),
             // navigate("/login")
             setRegister ({
                 'email': '',
                 'password': ''
             })
+            onSwitchToLogin()
         })
         
 
