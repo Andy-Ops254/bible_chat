@@ -80,30 +80,32 @@ function App() {
 
 
     return (
-    <>
-    <Navbar
-     onOpenLoginModal={openLoginModal}  
-     isAuthenticated={isAuthenticated} 
-     onLogout={handleLogout}/>
+    <div className='min-h-screen flex flex-col bg-cover bg-center bg-no-repeat'>
+        <main className='flex-1'>
+        <Navbar
+         onOpenLoginModal={openLoginModal}  
+         isAuthenticated={isAuthenticated} 
+         onLogout={handleLogout}/>
 
-    <Routes>
-        <Route path='/' element={<About />} />
-        <Route path='/daily_reading' element={<DailyReading />} />
-        <Route path ='/chatbot/emotion' element={<ChatBot />} />
-    </Routes>
+        <Routes>
+            <Route path='/' element={<About />} />
+            <Route path='/daily_reading' element={<DailyReading />} />
+            <Route path ='/chatbot/emotion' element={<ChatBot />} />
+        </Routes>
 
-    {showLoginModal && 
-    <LogIn onCloseLoginModal={closeLoginModal} 
-    onSwitchToRegister={switchToRegister} 
-    onLoginSuccess={handleLogin} />}
+        {showLoginModal && 
+        <LogIn onCloseLoginModal={closeLoginModal} 
+        onSwitchToRegister={switchToRegister} 
+        onLoginSuccess={handleLogin} />}
 
-    {showRegisterModal
-     && <Register onCloseRegisterModal={closeRegisterModal} 
-     onSwitchToLogin={switchToLogin}  
-     onLoginSuccess={handleLogin}/>}
+        {showRegisterModal
+         && <Register onCloseRegisterModal={closeRegisterModal} 
+         onSwitchToLogin={switchToLogin}  
+         onLoginSuccess={handleLogin}/>}
+         </main>
 
-    <Footer />
-    </>
+    {/* <Footer /> */}
+    </div>
     )
 }
 

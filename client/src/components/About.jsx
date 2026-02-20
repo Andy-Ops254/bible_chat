@@ -3,6 +3,7 @@ import 'boxicons/css/boxicons.min.css';
 import {useState, useEffect} from 'react'
 import LogIn from './LogIn ';
 import Register from './Register';
+import Footer from './Footer';
 
 
 
@@ -64,11 +65,11 @@ function About() {
     //     navigate("/register")
     //  }
   return (
-    <div>
+    <div className='min-h-screen flex flex-col'>
         <img
         alt="Bible"
         src="https://plus.unsplash.com/premium_photo-1764464679847-cc192d4034f0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMyfHx8ZW58MHx8fHx8"
-        className='absolute inset-0 -z-10 size-full object-cover object-right md:object-center bg-black/20'
+        className='absolute insert-0 -z-10 size-full object-cover object-right md:object-center bg-black/20'
         />
 
 
@@ -104,6 +105,9 @@ function About() {
     {showLoginModal && (
         <LogIn onSwitchToRegister={switchToRegister} onCloseLoginModal={closeLoginModal} />
         )}
+
+    <Footer />
+    
     </div>
     
   )
