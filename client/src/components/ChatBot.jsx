@@ -42,7 +42,7 @@ function ChatBot() {
             method:"POST",
             headers :{
                 "Content-Type": "application/json",
-                "Authorization": 'Bearer ${token}'
+                "Authorization": `Bearer ${token}`
             },
             body:JSON.stringify({emotion_text:input}) 
         })
@@ -66,53 +66,79 @@ function ChatBot() {
         }
     
     return (
-    <div>
-        {/* Error display */}
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6 space-y-4">
+        
+        {/* Header */}
+        <h2 className="text-2xl font-bold text-gray-800 text-center">
+        Scripture ChatBot
+        </h2>
+        <p className="text-sm text-gray-500 text-center">
+        Share how you're feeling and receive a verse
+        </p>
+
+        {/* Error Message */}
         {error && (
-            <div style={{color: 'red'}}>
-                {error}
-            </div>
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            {error}
+        </div>
         )}
-        
-        {/* Response card */}
+
+        {/* Response Card */}
         {response && (
-            <div>
-                <p>You said: {input}</p>
-                <p>{response.verse_text}</p>
-                <p>{response.scripture}</p>
-                <p>{response.message}</p>
-            </div>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
+            <p className="text-sm text-gray-600 italic">
+            "{response.verse_text}"
+            </p>
+            <p className="text-xs font-semibold text-blue-800">
+                {response.scripture}
+            </p>
+            {response.message && (
+            <p className="text-sm text-gray-700 mt-2">
+                {response.message}
+            </p>
+            )}
+        </div>
         )}
-        
-        {/* Loading */}
+
+        {/* Loading State */}
         {loading && (
-            <div>
-                <i className="bx bx-loader-alt animate-spin" />
-                <p>Finding verse...</p>
-            </div>
+        <div className="flex items-center justify-center gap-2 text-gray-600">
+            <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+            <p>Finding verse...</p>
+        </div>
         )}
-        
-        {/* Input area */}
+
+        {/* Input Form */}
+        <form onSubmit={handleSubmit} className="space-y-3">
         <textarea
-            placeholder='Type your feelings...' 
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            placeholder="Type your feelings..."
             value={input}
             onChange={handleChange}
+            rows={4}
         />
-        
-        {/* Character counter */}
-        <p>{input.length}/250</p>
-        
-        {/* Send button */}
-        <button 
-            type="button" 
-            onClick={handleSubmit} 
-            disabled={loading || !input.trim()}  // Disable when loading or empty
-        >
-            {loading ? "Sending..." : "Send"}
-        </button>
-    </div>
-)
-}
 
+          {/* Character Counter */}
+        <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">
+            {input.length}/250 characters
+            </span>
+            
+            {/* Send Button */}
+            <button
+            type="submit"
+            disabled={loading || !input.trim()}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+            >
+            {loading ? 'Sending...' : 'Send'}
+            </button>
+        </div>
+        </form>
+
+    </div>
+    </div>
+    )
+}
 
 export default ChatBot

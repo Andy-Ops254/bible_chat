@@ -6,6 +6,7 @@ import LogIn from './LogIn '
 import DailyReading from './DailyReading'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import ChatBot from './ChatBot'
+import Footer from './Footer'
 
 function App() {
       const location = useLocation()
@@ -100,6 +101,8 @@ function App() {
      && <Register onCloseRegisterModal={closeRegisterModal} 
      onSwitchToLogin={switchToLogin}  
      onLoginSuccess={handleLogin}/>}
+
+    <Footer />
     </>
     )
 }
