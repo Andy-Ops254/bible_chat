@@ -53,6 +53,7 @@ function ChatBot() {
             return res.json()
         })
         .then(data => {
+            console.log(data)
             setLoading(false)
             setResponse(data)
             setInput('')
@@ -88,15 +89,20 @@ function ChatBot() {
         {response && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
             <p className="text-sm text-gray-600 italic">
-            "{response.verse_text}"
+            "{response.verse.text}"
             </p>
             <p className="text-xs font-semibold text-blue-800">
-                {response.scripture}
+                {response.verse.reference}
             </p>
             {response.message && (
             <p className="text-sm text-gray-700 mt-2">
                 {response.message}
             </p>
+            )}
+            {response.emotion_detected && (
+                <p className='text-sm text-red-500 mt-2'>
+                    {response.emotion_detected}
+                </p>
             )}
         </div>
         )}

@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 
 function Navbar({onOpenLoginModal, onLogout, isAuthenticated}) {
-  console.log("isAthenticated:", isAuthenticated)
+  console.log("isAuthenticated:", isAuthenticated)
   const navigate = useNavigate()
 
   function handleLogout() {
@@ -15,58 +15,59 @@ function Navbar({onOpenLoginModal, onLogout, isAuthenticated}) {
   }
 
   return (
-    <div className='flex justify-between py-2 px-2 lg:px-20'>
+    <nav className="relative z-20 bg-black/30 backdrop-blur-md w-full">
+      <div className="flex justify-between items-center p-4 max-w-7xl mx-auto">
 
         <h1 
-        className='text-3xl md:text-4xl lg:text-5xl font-light m-0
-        font-serif hover:opacity-80 transition-opacity text-blue-300'>
-
+          className="text-3xl md:text-4xl lg:text-5xl font-light m-0 font-serif hover:opacity-80 transition-opacity text-white cursor-pointer"
+          onClick={() => navigate('/')}
+        >
           MY.DEVOTION
         </h1>
 
-        <div className='flex items-center gap-12'>
-            {isAuthenticated ? (
-              <>
+        <div className="flex items-center gap-8 md:gap-12">
+          {isAuthenticated ? (
+            <>
+              <Link 
+                to="/daily_reading" 
+                className="text-sm md:text-base tracking-wider hover:text-blue-300 text-white transition-colors"
+              >
+                HOME
+              </Link>
 
-                <Link to="/daily_reading" 
-                className='text-base tracking-wider hover:text-blue-400 text-black'>
-                  HOME
-                </Link>
-
-                <button
-                className='text-base tracking wider hover:text-blue-400  text-black'
-                type='button'
+              <button
+                className="text-sm md:text-base tracking-wider hover:text-blue-300 text-white transition-colors flex items-center gap-2"
+                type="button"
                 onClick={handleChat}
-                >
-                  <i class="bx bx-discussion" />
-                  Chat
-                </button>
+              >
+                <i className="bx bx-discussion"></i>
+                <span className="hidden sm:inline">Chat</span>
+              </button>
 
-                <button
-                  type='button'
-                  className='text-base tracking-wider hover:text-blue-400  text-black'
-                  onClick={handleLogout}
-                >
-                  LOGOUT
-                </button>
-
-                
-              </>
-            ) : (
-              <>
-                <button
-                  type='button'
-                  className='text-base tracking-wider hover:text-blue-400 z-50 text-white transition-colors'
-                  onClick={onOpenLoginModal}
-                >
-                  LOGIN
-                </button>
-              </>
-            )}
+              <button
+                type="button"
+                className="text-sm md:text-base tracking-wider hover:text-blue-300 text-white transition-colors"
+                onClick={handleLogout}
+              >
+                LOGOUT
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="text-sm md:text-base tracking-wider hover:text-blue-300 text-white transition-colors px-6 py-2 border border-white/30 rounded-md hover:bg-white/10"
+                onClick={onOpenLoginModal}
+              >
+                LOGIN
+              </button>
+            </>
+          )}
         </div>
 
-    </div>
+      </div>
+    </nav>
   )
 }
 
-export default Navbar;
+export default Navbar

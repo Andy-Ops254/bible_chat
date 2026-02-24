@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react'
 import LogIn from './LogIn ';
 import Register from './Register';
 import Footer from './Footer';
+import Navbar from './Navbar';
 
 
 
@@ -65,15 +66,23 @@ function About() {
     //     navigate("/register")
     //  }
   return (
-    <div className='min-h-screen flex flex-col'>
+    <div className='min-h-screen flex flex-col relative'>
         <img
         alt="Bible"
         src="https://plus.unsplash.com/premium_photo-1764464679847-cc192d4034f0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMyfHx8ZW58MHx8fHx8"
-        className='absolute insert-0 -z-10 size-full object-cover object-right md:object-center bg-black/20'
+        className='absolute inset-0 -z-10 w-full h-full object-cover object-right md:object-center bg-black/20'
         />
 
 
+        {/* Dark overlay for better text readability (optional) */}
+        {/* <div className="absolute inset-0 -z-10 bg-black/40"></div>
 
+        <Navbar
+         onOpenLoginModal={openLoginModal}  
+         isAuthenticated={isAuthenticated} 
+         onLogout={handleLogout}/> */}
+
+        <main className='flex-1 flex items-center justify-center px-4'>
         <div 
         className='text-center dark:text-white mx-auto max-w-2xl mt-36'>
             <h2 className='text-4xl md:text-4xl lg:text-6xl font-bold tracking-tight font-serif'>
@@ -94,6 +103,7 @@ function About() {
                 </button>
             
         </div>
+        </main>
 
     {/* Conditional rendering so that when state changes the forms render accordingly */}
         {/* <Navbar onOpenLoginModal={openLoginModal} /> */}

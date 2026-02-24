@@ -1,5 +1,7 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
+import Footer from './Footer'
+
 
 function DailyReading() {
     const [verse, setVerse] = useState(null)
@@ -47,10 +49,10 @@ function DailyReading() {
       }
       else if (verse !==null) {
         return(
-          <div className='dark:bg-gray-900 rounded-2xl shadow-xl p-6 md:p-8 max-w-3xl
-          mx-auto my-30 flex flex-col gap-4 text-gray-900 dark:text-gray-100'>
+          <div className='dark:bg-gray-100 rounded-2xl shadow-xl p-6 md:p-8 max-w-3xl
+          mx-auto my-30 flex flex-col gap-4 text-black dark:text-black'>
           
-            <h3 className='text-xs md:text-sm text-gray-500 font-semibold font-serif'>
+            <h3 className='text-xs md:text-sm text-gray-400 dark:text-gray-500 font-semibold font-serif'>
               {verse.date}
             </h3>
 
@@ -81,7 +83,9 @@ function DailyReading() {
     return (
       <div>
         {daily_reading()}
+        {/* <Footer /> */}
       </div>
+      
     )
 }
 
