@@ -30,7 +30,7 @@ function DailyReading() {
             setLoading(false)
         })
         .catch((err) => {
-        console.error("❌ Failed to fetch:", err.message);
+        console.error(" Failed to fetch:", err.message);
         setLoading(false)
     });
     },[])
@@ -69,10 +69,10 @@ function DailyReading() {
 
       else{
         return(
-          <div className='flex flex-col items-center justify-center p-6 text-center text-gray-600'>
+          <div className='flex flex-col items-center justify-center p-6 text-center text-red-600 mt-32'>
             <i className="bx bx-sad text-3xl" />
 
-            <p className='mt-2'>
+            <p className='mt-2 text-2xl text-red-500'>
               Couldn't load Verse...!
             </p>
           </div>
