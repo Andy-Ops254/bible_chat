@@ -141,7 +141,7 @@ def create_app():
                             .offset(verse_allocation)\
                             .first()
         if not verse:
-            return jsonify({"error": "Daily reading not found"}, 404)
+            return jsonify({"error": "Daily reading not found"}), 404
         
         #getting related information
         chapter = Bible_chapters.query.filter_by(id=verse.chapters_id).first()
