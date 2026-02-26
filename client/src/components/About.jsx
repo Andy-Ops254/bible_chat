@@ -84,7 +84,11 @@ function About() {
 
         <main className='flex-1 flex items-center justify-center px-4'>
         <div 
-        className='text-center dark:text-white mx-auto max-w-2xl mt-36'>
+        className='text-center dark:text-white mx-auto max-w-2xl mt-36'
+        data-aos="fade-right"
+        data-aos-offset="300"
+        data-aos-easing="ease-in-sine"
+        >
             <h2 className='text-4xl md:text-4xl lg:text-6xl font-bold tracking-tight font-serif'>
                 Welcome to Bible-devotion
             </h2>

@@ -81,7 +81,11 @@ function DailyReading() {
     }
   
     return (
-      <div>
+      <div
+      data-aos="fade-right"
+      data-aos-offset="300"
+      data-aos-easing="ease-in-sine"
+      >
         {daily_reading()}
         {/* <Footer /> */}
       </div>

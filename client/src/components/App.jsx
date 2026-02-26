@@ -7,8 +7,17 @@ import DailyReading from './DailyReading'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import ChatBot from './ChatBot'
 import Footer from './Footer'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function App() {
+
+    useEffect(()=> {
+        AOS.init({
+            duration:1500,
+            once:true,
+        })
+    })
       const location = useLocation()
 
       // state for the modals
