@@ -26,6 +26,7 @@ All Bible data is hosted locally and served from a PostgreSQL database for perfo
 - React
 - JavaScript
 - CSS (modal backdrop blur & scroll lock functionality)
+- AOS animations
 
 ### Backend
 - Python
@@ -103,13 +104,27 @@ Each log includes:
 ```
 /backend
     app.py
-    models.py
+    config.py
     emotion_verses.py
+    models.py
+    populate_bible.py
+    populate_order.py
     requirements.txt
 
 /frontend
     /src
-    package.json
+      /assets
+      /components
+        About.jsx
+        App.jsx
+        ChatBot.jsx
+        DailyReading.jsx
+        Footer.jsx
+        LogIn.jsx
+        Navbar.jsx
+        Register.jsx
+        index.css
+        main.jsx
 ```
 
 ---
@@ -196,12 +211,12 @@ npm install
 Start development server:
 
 ```bash
-npm start
+npm run dev
 ```
 
 Frontend runs on:
 ```
-http://localhost:3000
+http://localhost:5173/
 ```
 
 ---
