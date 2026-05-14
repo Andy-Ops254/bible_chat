@@ -16,7 +16,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
 
     const registerData = {...register}
 
-    function handleSubmit(){
+    function handleSubmit(e){
         e.preventDefault()
         fetch('/users', {
             method:'POST',
@@ -41,6 +41,11 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
                 'password': ''
             })
             onSwitchToLogin()
+        })
+        .catch(err => {
+            // This handles the "Invalid Login" error and network failures
+            console.error("Registration failed:", err.message);
+            // Optional: alert(err.message); 
         })
         
 

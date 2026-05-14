@@ -89,7 +89,7 @@ function App() {
 
 
     return (
-    <div className='min-h-screen flex flex-col bg-cover bg-center bg-no-repeat'>
+    <div className='min-h-screen flex flex-col bg-white text-slate-900'>
         <main className='flex-1'>
         <Navbar
          onOpenLoginModal={openLoginModal}  
@@ -113,7 +113,7 @@ function App() {
          onLoginSuccess={handleLogin}/>}
          </main>
 
-    {/* <Footer /> */}
+    <Footer />
     </div>
     )
 }

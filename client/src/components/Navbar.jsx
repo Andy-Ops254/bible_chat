@@ -15,14 +15,14 @@ function Navbar({onOpenLoginModal, onLogout, isAuthenticated}) {
   }
 
   return (
-    <nav className="relative z-20 bg-black/30 backdrop-blur-md w-full">
+    <nav className="relative z-20 bg-slate-100/95 backdrop-blur-sm w-full shadow-sm">
       <div className="flex justify-between items-center p-4 max-w-7xl mx-auto">
 
         <h1 
         data-aos="fade-down"
         data-aos-easing="linear"
         data-aos-duration="1500"
-          className="text-3xl md:text-4xl lg:text-5xl font-light m-0 font-serif hover:opacity-80 transition-opacity text-white cursor-pointer"
+          className="text-3xl md:text-4xl lg:text-5xl font-light m-0 font-serif hover:opacity-80 transition-opacity text-black cursor-pointer"
           onClick={() => navigate('/')}
         >
           MY.DEVOTION
@@ -33,16 +33,14 @@ function Navbar({onOpenLoginModal, onLogout, isAuthenticated}) {
             <>
               <Link 
                 to="/daily_reading" 
-                className="text-sm md:text-base tracking-wider hover:text-blue-300 text-white transition-colors"
-                data-aos="fade-down"
-                data-aos-easing="linear"
+                className="text-sm md:text-base tracking-wider hover:text-blue-500 text-black transition-colors"
                 data-aos-duration="1000"
               >
                 HOME
               </Link>
 
               <button
-                className="text-sm md:text-base tracking-wider hover:text-blue-300 text-white transition-colors flex items-center gap-2"
+                className="text-sm md:text-base tracking-wider hover:text-blue-500 text-black transition-colors flex items-center gap-2"
                 type="button"
                 onClick={handleChat}
                 data-aos="fade-down"
@@ -55,7 +53,7 @@ function Navbar({onOpenLoginModal, onLogout, isAuthenticated}) {
 
               <button
                 type="button"
-                className="text-sm md:text-base tracking-wider hover:text-blue-300 text-white transition-colors"
+                className="text-sm md:text-base tracking-wider hover:text-blue-500 text-black transition-colors"
                 onClick={handleLogout}
                 data-aos="fade-down"
                 data-aos-easing="linear"
@@ -71,7 +69,7 @@ function Navbar({onOpenLoginModal, onLogout, isAuthenticated}) {
               data-aos-easing="linear"
               data-aos-duration="1000"
                 type="button"
-                className="text-sm md:text-base tracking-wider hover:text-blue-300 text-white transition-colors px-6 py-2 border border-white/30 rounded-md hover:bg-white/10"
+                className="text-sm md:text-base tracking-wider hover:text-blue-500 text-black transition-colors px-6 py-2 border border-slate-300 rounded-md hover:bg-slate-200/70"
                 onClick={onOpenLoginModal}
               >
                 LOGIN

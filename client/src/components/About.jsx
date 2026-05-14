@@ -3,8 +3,6 @@ import 'boxicons/css/boxicons.min.css';
 import {useState, useEffect} from 'react'
 import LogIn from './LogIn ';
 import Register from './Register';
-import Footer from './Footer';
-import Navbar from './Navbar';
 
 
 
@@ -66,64 +64,57 @@ function About() {
     //     navigate("/register")
     //  }
   return (
-    <div className='min-h-screen flex flex-col relative'>
-        <img
-        alt="Bible"
-        src="https://plus.unsplash.com/premium_photo-1764464679847-cc192d4034f0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMyfHx8ZW58MHx8fHx8"
-        className='absolute inset-0 -z-10 w-full h-full object-cover object-right md:object-center bg-black/20'
-        />
-
-
-        {/* Dark overlay for better text readability (optional) */}
-        {/* <div className="absolute inset-0 -z-10 bg-black/40"></div>
-
-        <Navbar
-         onOpenLoginModal={openLoginModal}  
-         isAuthenticated={isAuthenticated} 
-         onLogout={handleLogout}/> */}
-
-        <main className='flex-1 flex items-center justify-center px-4'>
-        <div 
-        className='text-center dark:text-white mx-auto max-w-2xl mt-36'
-        data-aos="fade-right"
-        data-aos-offset="300"
-        data-aos-easing="ease-in-sine"
-        >
-            <h2 className='text-4xl md:text-4xl lg:text-6xl font-bold tracking-tight font-serif'>
-                Welcome to Bible-devotion
-            </h2>
-            <p className='mt-8 text-lg text-pretty font-medium p-4'>
-                "Life brings moments of joy, anxiety, and everything in between.
-                We're here to meet you in those moments with Scripture that speaks directly to your heart, 
-                offering peace, hope, and a deeper connection with God."
-            </p>
-        
-                <button 
-                className='font-bold bg-blue-700 p-4 rounded-lg mt-4 hover:bg-blue-500 hover:text-green-300
-                active:bg-blue-800 transition-colors duration-200 cursor-pointer'
-                onClick={openRegisterModal}>
-                TRY NOW 
-                <i className="bx bx-arrow-out-up-right-square px-[1.8px] font-light" />
-                </button>
-            
+    <div className='min-h-screen flex flex-col bg-white text-slate-900'>
+      <section className='relative overflow-hidden'>
+        <div className='absolute inset-0'>
+          <div
+            className='h-full w-full bg-cover bg-center'
+            style={{
+              backgroundImage:
+                'url("https://plus.unsplash.com/premium_photo-1764464679847-cc192d4034f0?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMyfHx8ZW58MHx8fHx8")',
+            }}
+          />
+          <div className='absolute inset-0 bg-slate-950/40' />
         </div>
-        </main>
 
-    {/* Conditional rendering so that when state changes the forms render accordingly */}
-        {/* <Navbar onOpenLoginModal={openLoginModal} /> */}
-        
-    {showRegisterModal && (
-        <Register onSwitchToLogin={switchToLogin} onCloseRegisterModal={closeRegisterModal} /> 
-        )}
+        <div className='relative z-10 flex min-h-[72vh] items-center justify-center px-4'>
+          <div
+            className='text-center text-white mx-auto max-w-2xl'
+            data-aos='fade-right'
+            data-aos-offset='300'
+            data-aos-easing='ease-in-sine'
+          >
+            <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-serif'>
+              Welcome to Bible-devotion
+            </h2>
+            <p className='mt-8 text-lg font-medium px-4 leading-relaxed'>
+              "Life brings moments of joy, anxiety, and everything in between.
+              We're here to meet you in those moments with Scripture that speaks directly to your heart,
+              offering peace, hope, and a deeper connection with God."
+            </p>
 
-    {showLoginModal && (
+            <button
+              className='font-bold bg-blue-600 px-6 py-4 rounded-lg mt-6 hover:bg-blue-500 active:bg-blue-700 transition-colors duration-200 cursor-pointer'
+              onClick={openRegisterModal}
+            >
+              TRY NOW
+              <i className='bx bx-arrow-out-up-right-square ml-2 text-xl' />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className='bg-white min-h-[35vh]' />
+
+      {/* Conditional rendering so that when state changes the forms render accordingly */}
+      {showRegisterModal && (
+        <Register onSwitchToLogin={switchToLogin} onCloseRegisterModal={closeRegisterModal} />
+      )}
+
+      {showLoginModal && (
         <LogIn onSwitchToRegister={switchToRegister} onCloseLoginModal={closeLoginModal} />
-        )}
-
-    <Footer />
-    
+      )}
     </div>
-    
   )
 }
 
