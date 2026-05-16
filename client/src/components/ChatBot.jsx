@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { fetchWithAuth } from '../utils/auth'
+import { fetchData } from './api';
 
 function ChatBot() {
     // states im going to need for this component
@@ -37,7 +38,7 @@ function ChatBot() {
         setLoading(true)
         setError(null)
 
-        fetchWithAuth('/chatbot/emotion', {
+        fetchData('/chatbot/emotion', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ function ChatBot() {
         })
 
         .then(data => {
-            console.log(data)
+            // console.log(data)
             setLoading(false)
             setResponse(data)
             setInput('')
