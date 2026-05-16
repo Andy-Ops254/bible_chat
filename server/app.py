@@ -1,4 +1,5 @@
-from flask import Flask, request,jsonify, make_response
+import os
+from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from config import Config
@@ -8,7 +9,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_jwt_extended import (
     create_access_token, create_refresh_token, jwt_required, get_jwt_identity, JWTManager, get_jwt
 )
-from datetime import datetime, timedelta, date,timezone
+from datetime import datetime, timedelta, date, timezone
 from emotion_verses import get_verse_for_emotion, detect_emotion
 
 
@@ -27,8 +28,6 @@ def create_app():
     jwt.init_app(app)
     migrate.init_app(app, db) 
     CORS(app)
-
-
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
         # return True if token has been revoked (jti is in blacklist)
@@ -251,6 +250,11 @@ def create_app():
 
     return app
 
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
-    app.run(port=5555, debug=True)
+    # Render provides a PORT environment variable, locally it will use 5555
+    port = int(os.environ.get("PORT", 5555))
+    
+    # host='0.0.0.0' is REQUIRED for Render
+    app.run(host='0.0.0.0', port=port, debug=True)
