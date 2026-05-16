@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { saveAuthTokens } from '../utils/auth'
-import { fetchData } from './api';
+import { fetchData } from '../api';
 
 function LogIn ({onCloseLoginModal, onSwitchToRegister, onLoginSuccess}) {
 

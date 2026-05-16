@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { fetchData } from './api';
+import { fetchData } from '../api';
 
 function Register({onCloseRegisterModal, onSwitchToLogin}) {
     const [register, setRegister] = useState ({

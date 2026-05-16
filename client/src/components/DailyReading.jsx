@@ -1,7 +1,7 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
 import Footer from './Footer'
-import { fetchData } from './api';
+import { fetchData } from '../api';
 
 
 function DailyReading() {

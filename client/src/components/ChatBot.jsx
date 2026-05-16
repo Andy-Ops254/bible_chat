@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { fetchWithAuth } from '../utils/auth'
-import { fetchData } from './api';
+import { fetchData } from '../api';
 
 function ChatBot() {
     // states im going to need for this component
