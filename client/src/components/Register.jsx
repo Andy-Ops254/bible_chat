@@ -18,7 +18,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
 
     function handleSubmit(e){
         e.preventDefault()
-        fetch('/users', {
+        fetch('/register', {
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'

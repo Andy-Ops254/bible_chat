@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import { fetchWithAuth } from '../utils/auth'
 
 function ChatBot() {
     // states im going to need for this component
@@ -36,22 +37,20 @@ function ChatBot() {
         setLoading(true)
         setError(null)
 
-        const token = localStorage.getItem('access_token')
-
-        fetch('http://127.0.0.1:5555/chatbot/emotion', {
-            method:"POST",
-            headers :{
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+        fetchWithAuth('/chatbot/emotion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             },
-            body:JSON.stringify({emotion_text:input}) 
+            body: JSON.stringify({ emotion_text: input }),
         })
         .then(res => {
-            if(!res.ok) {
+            if (!res.ok) {
                 throw new Error("Couldn't match a Verse!")
             }
             return res.json()
         })
+
         .then(data => {
             console.log(data)
             setLoading(false)

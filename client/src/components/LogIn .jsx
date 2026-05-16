@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { saveAuthTokens } from '../utils/auth'
 
 function LogIn ({onCloseLoginModal, onSwitchToRegister, onLoginSuccess}) {
 
@@ -25,7 +26,7 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister, onLoginSuccess}) {
     
         e.preventDefault()
     
-    fetch('http://127.0.0.1:5555/login', {
+    fetch('/login', {
         method:"POST", 
         headers: {
             "Content-Type": "application/json"
@@ -41,10 +42,12 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister, onLoginSuccess}) {
     })
     .then(data => {
         // console.log("Green", data)
-        // Store token in localStorage
-        localStorage.setItem('access_token', data.access_token)
-        localStorage.setItem('user', JSON.stringify(data.user))
-        
+        saveAuthTokens({
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+          user: data.user,
+        })
+
         setlogData ({
             email: '',
             password: ''

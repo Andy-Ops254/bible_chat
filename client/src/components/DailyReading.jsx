@@ -10,7 +10,7 @@ function DailyReading() {
     useEffect(() => {
         setLoading(true)
 
-        fetch('http://127.0.0.1:5555/daily_reading')
+        fetch('/daily_reading')
         .then(res => {
           if (!res.ok) {
             throw new Error('Failed to fetch verse!')
