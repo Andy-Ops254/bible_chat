@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { saveAuthTokens } from '../utils/auth'
-import { fetchData } from '../api';
+import {apiFetch} from '../api';
 
 function LogIn ({onCloseLoginModal, onSwitchToRegister, onLoginSuccess}) {
 
@@ -27,7 +27,7 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister, onLoginSuccess}) {
     
         e.preventDefault()
     
-    fetchData('/login', {
+    apiFetch('/login', {
         method:"POST", 
         headers: {
             "Content-Type": "application/json"

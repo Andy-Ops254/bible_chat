@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { fetchData } from '../api';
+import { apiFetch } from '../api';
 
 function Register({onCloseRegisterModal, onSwitchToLogin}) {
     const [register, setRegister] = useState ({
@@ -19,7 +19,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
 
     function handleSubmit(e){
         e.preventDefault()
-        fetchData('/register', {
+        apiFetch('/register', {
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'

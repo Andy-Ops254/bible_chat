@@ -1,7 +1,7 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
 import Footer from './Footer'
-import { fetchData } from '../api';
+import { apiFetch } from '../api';
 
 
 function DailyReading() {
@@ -11,7 +11,7 @@ function DailyReading() {
     useEffect(() => {
         setLoading(true)
 
-        fetchData('/daily_reading')
+        apiFetch('/daily_reading')
         .then(res => {
           if (!res.ok) {
             throw new Error('Failed to fetch verse!')
