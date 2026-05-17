@@ -59,8 +59,8 @@ function ChatBot() {
             setInput('')
         })
         .catch((err) => {
-            setError("Failed to get verse, please try again!")
-            console.error("Error:", err)
+            // setError("Failed to get verse, please try again!")
+            console.error(err.message)
             setLoading(false)
             
         })
