@@ -34,13 +34,13 @@ function LogIn ({onCloseLoginModal, onSwitchToRegister, onLoginSuccess}) {
         },
         body: JSON.stringify(credentials)
     })
-    .then(response => {
-        // console.log("success", response.status)
-        if (!response.ok){
-            throw new Error ("LogIn failed")
-        }
-        return response.json()
-    })
+    // .then(response => {
+    //     // console.log("success", response.status)
+    //     if (!response.ok){
+    //         throw new Error ("LogIn failed")
+    //     }
+    //     return response.json()
+    // })
     .then(data => {
         // console.log("Green", data)
         saveAuthTokens({

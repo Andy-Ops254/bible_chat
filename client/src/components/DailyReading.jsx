@@ -12,12 +12,12 @@ function DailyReading() {
         setLoading(true)
 
         apiFetch('/daily_reading')
-        .then(res => {
-          if (!res.ok) {
-            throw new Error('Failed to fetch verse!')
-          }
-          return res.json()
-        })
+        // .then(res => {
+        //   if (!res.ok) {
+        //     throw new Error('Failed to fetch verse!')
+        //   }
+        //   return res.json()
+        // })
         .then (data => {
           // console.log(data)
             setVerse({

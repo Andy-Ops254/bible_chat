@@ -45,12 +45,12 @@ function ChatBot() {
             },
             body: JSON.stringify({ emotion_text: input }),
         })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error("Couldn't match a Verse!")
-            }
-            return res.json()
-        })
+        // .then(res => {
+        //     if (!res.ok) {
+        //         throw new Error("Couldn't match a Verse!")
+        //     }
+        //     return res.json()
+        // })
 
         .then(data => {
             // console.log(data)

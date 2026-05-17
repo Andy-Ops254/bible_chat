@@ -19,6 +19,7 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
 
     function handleSubmit(e){
         e.preventDefault()
+        // console.log(import.meta.env.VITE_API_URL)
         apiFetch('/register', {
             method:'POST',
             headers: {
@@ -26,13 +27,13 @@ function Register({onCloseRegisterModal, onSwitchToLogin}) {
             },
             body: JSON.stringify(registerData)
         })
-        .then(res =>{
-            // console.log("Success", res.status)
-            if (!res.ok) {
-                throw new Error("Invalid Login")
-            }
-        return res.json()
-        })
+        // .then(res =>{
+        //     // console.log("Success", res.status)
+        //     if (!res.ok) {
+        //         throw new Error("Invalid Login")
+        //     }
+        // return res.json()
+        // })
 
         .then(data =>{
             // console.log("Success", data),
