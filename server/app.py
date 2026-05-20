@@ -27,7 +27,7 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db) 
-    CORS(app)
+    CORS(app, origins=["https://bible-chat-chi.vercel.app/"], supports_credentials=True)
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
         # return True if token has been revoked (jti is in blacklist)
