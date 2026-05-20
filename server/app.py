@@ -252,7 +252,11 @@ def create_app():
 
 app = create_app()
 with app.app_context():
-    db.create_all()
+    try:
+        db.create_all()
+        print("Database tables created successfully")
+    except Exception as e:
+        print(f"Database init error: {e}")
 
 if __name__ == "__main__":
     # Render provides a PORT environment variable, locally it will use 5555

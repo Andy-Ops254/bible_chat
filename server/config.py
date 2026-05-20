@@ -19,4 +19,6 @@ class Config:
     SQLALCHEMY_ENGINE_OPTIONS = {
     "pool_pre_ping": True,       # tests connection before using it
     "pool_recycle": 280,         # recycles connections before Render kills them
+    "connect_args": {"sslmode": "require"}
+
 }
