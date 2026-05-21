@@ -20,6 +20,9 @@ All Bible data is hosted locally and served from a PostgreSQL database for perfo
 
 ---
 
+## LIVE LINK
+[Bible_chat](https://bible-chat-chi.vercel.app/)
+
 ##  Tech Stack
 
 ### Frontend
