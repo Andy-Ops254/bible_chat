@@ -14,7 +14,7 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = uri
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    JWT_SECRET_KEY = 'Rimoney02'
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
     SQLALCHEMY_ENGINE_OPTIONS = {
     "pool_pre_ping": True,       # tests connection before using it
