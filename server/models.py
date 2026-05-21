@@ -103,7 +103,7 @@ class Bible_books(db.Model, SerializerMixin):
     chapters=db.relationship('Bible_chapters',backref='book')
 
     def __repr__(self):
-        return f'Book name={self.name}, order={self.order}'
+        return f'Book name={self.name}, order={self.book_order}'
 
 
 

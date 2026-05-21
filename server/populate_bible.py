@@ -130,6 +130,7 @@ def populate_bible():
                 new_book = Bible_books(
                     id=book_id,
                     name=book_name,
+                    book_order=book_idx,
                     abbreviation=book_id
                 )
                 db.session.add(new_book)
@@ -215,7 +216,7 @@ def check_missing_content():
             db_books = Bible_books.query.filter_by(id=book_id).first()
 
             if not db_books:
-                missing_books.append('book')
+                missing_books.append(book)
                 total_missing_chapters += expected_chapters
                 print(f" MISSING BOOK: {book_name} ({expected_chapters} chapters)")
 
@@ -308,9 +309,14 @@ def fill_missing_content():
             print(f"\n📚 Processing MISSING BOOK: {book_name}")
             
             # Add book
+            bible_order = next((i + 1 for i, b in enumerate(BIBLE_BOOKS) if b["id"] == book_id), None)
+            if bible_order is None:
+                raise ValueError(f"Unknown book id for missing book: {book_id}")
+
             new_book = Bible_books(
                 id=book_id,
                 name=book_name,
+                book_order=bible_order,
                 abbreviation=book_id
             )
             db.session.add(new_book)
@@ -329,7 +335,7 @@ def fill_missing_content():
                 chapter_id = f"{book_id}.{chapter_num}"
                 new_chapter = Bible_chapters(
                     id=chapter_id,
-                    book_id=book_id,
+                    books_id=book_id,
                     chapter_number=chapter_num
                 )
                 db.session.add(new_chapter)
@@ -344,7 +350,7 @@ def fill_missing_content():
                     
                     new_verse = Bible_verses(
                         id=verse_id,
-                        chapter_id=chapter_id,
+                        chapterss_id=chapter_id,
                         verse_number=verse_num,
                         text=verse_text
                     )
@@ -376,7 +382,7 @@ def fill_missing_content():
             chapter_id = f"{book_id}.{chapter_num}"
             new_chapter = Bible_chapters(
                 id=chapter_id,
-                book_id=book_id,
+                books_id=book_id,
                 chapter_number=chapter_num
             )
             db.session.add(new_chapter)
