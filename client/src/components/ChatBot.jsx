@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { fetchWithAuth } from '../utils/auth'
 
+const API_URL = import.meta.env.VITE_API_URL
 function ChatBot() {
     // states im going to need for this component
     const [input, setInput]=useState('')
@@ -37,7 +38,7 @@ function ChatBot() {
         setLoading(true)
         setError(null)
 
-        fetchWithAuth('/chatbot/emotion', {
+        fetchWithAuth(`${API_URL}/chatbot/emotion`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
