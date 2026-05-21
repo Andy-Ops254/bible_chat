@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
 import { fetchWithAuth } from '../utils/auth'
-import { apiFetch } from '../api';
 
 function ChatBot() {
     // states im going to need for this component
@@ -38,31 +37,27 @@ function ChatBot() {
         setLoading(true)
         setError(null)
 
-        apiFetch('/chatbot/emotion', {
+        fetchWithAuth('/chatbot/emotion', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ emotion_text: input }),
         })
-        // .then(res => {
-        //     if (!res.ok) {
-        //         throw new Error("Couldn't match a Verse!")
-        //     }
-        //     return res.json()
-        // })
-
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Couldn't match a verse!")
+            }
+            return res.json()
+        })
         .then(data => {
-            // console.log(data)
             setLoading(false)
             setResponse(data)
             setInput('')
         })
         .catch((err) => {
-            // setError("Failed to get verse, please try again!")
             console.error(err.message)
             setLoading(false)
-            
         })
         }
     
