@@ -12,7 +12,7 @@ function Footer() {
         data-aos="fade-up"
         data-aos-duration="3000"
         >
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-100"
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[#c9a84c]"
             
             >
             FORM NI GOD

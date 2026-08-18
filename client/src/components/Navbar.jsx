@@ -69,7 +69,7 @@ function Navbar({onOpenLoginModal, onLogout, isAuthenticated}) {
               data-aos-easing="linear"
               data-aos-duration="1000"
                 type="button"
-                className="text-sm md:text-base tracking-wider hover:text-blue-500 text-black transition-colors px-6 py-2 border border-slate-300 rounded-md hover:bg-slate-200/70"
+                className="font-bold bg-[linear-gradient(135deg,#c9a84c_0%,#8a6f2e_100%)] px-6 py-4 rounded-lg mt-6 hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer"
                 onClick={onOpenLoginModal}
               >
                 LOGIN
