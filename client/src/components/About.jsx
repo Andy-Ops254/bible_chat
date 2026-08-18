@@ -3,7 +3,7 @@ import 'boxicons/css/boxicons.min.css';
 import {useState, useEffect} from 'react'
 import LogIn from './LogIn ';
 import Register from './Register';
-
+// import cross from '../assets/cross.svg';
 
 
 function About() {
@@ -65,42 +65,71 @@ function About() {
     //  }
   return (
     <div className='min-h-screen flex flex-col bg-white text-slate-900'>
-      <section className='relative overflow-hidden'>
-        <div className='absolute inset-0'>
-          <div
-            className='h-full w-full bg-cover bg-center'
-            style={{
-              backgroundImage:
-                'url("https://plus.unsplash.com/premium_photo-1764464679847-cc192d4034f0?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMyfHx8ZW58MHx8fHx8")',
-            }}
-          />
-          <div className='absolute inset-0 bg-slate-950/40' />
+      <section className='flex-1 flex items-center justify-center px-4'>
+      <div className='flex flex-col items-center text-center max-w-2xl  '>
+        <div className="w-[220px] h-[220px] rounded-full flex items-center justify-center"
+          style={{
+      background: 'radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%)',
+    }}
+        
+        >
+          <svg
+            viewBox="0 0 87.16 122.88"
+            className="h-[150px] w-auto"
+            aria-hidden="true"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFF3B0" />
+                <stop offset="50%" stopColor="#D4AF37" />
+                <stop offset="100%" stopColor="#9C7A1E" />
+              </linearGradient>
+
+            <filter id="crossGlow">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+            </defs>
+            <polygon
+              fill="url(#goldGradient)"
+              points="87.16,28.3 87.16,51.47 55.17,51.47 55.17,122.88 31.99,122.88 31.99,51.47 0,51.47 0,28.3 31.99,28.3 31.99,0 55.17,0 55.17,28.3 87.16,28.3"
+            />
+          </svg>
         </div>
 
-        <div className='relative z-10 flex min-h-[72vh] items-center justify-center px-4'>
           <div
-            className='text-center text-white mx-auto max-w-2xl'
+            className='text-center text-black mx-auto max-w-2xl'
             data-aos='fade-right'
             data-aos-offset='300'
             data-aos-easing='ease-in-sine'
           >
             <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-serif'>
-              Welcome to Bible-devotion
+              THE WORD,<br /> ILLUMINATED.
             </h2>
-            <p className='mt-8 text-lg font-medium px-4 leading-relaxed'>
+            <p className='mt-8 text-lg font-medium px-4 leading-relaxed italic text-[#c8b89a]'>
               "Life brings moments of joy, anxiety, and everything in between.
               We're here to meet you in those moments with Scripture that speaks directly to your heart,
               offering peace, hope, and a deeper connection with God."
             </p>
 
             <button
-              className='font-bold bg-blue-600 px-6 py-4 rounded-lg mt-6 hover:bg-blue-500 active:bg-blue-700 transition-colors duration-200 cursor-pointer'
+              className='font-bold bg-[linear-gradient(135deg,#c9a84c_0%,#8a6f2e_100%)] px-6 py-4 rounded-lg mt-6 hover:scale-105 hover:brightness-110 transition-all duration-300 cursor-pointer'
               onClick={openRegisterModal}
             >
               TRY NOW
               <i className='bx bx-arrow-out-up-right-square ml-2 text-xl' />
             </button>
           </div>
+          </div>
+
+
+        <div>
+
         </div>
       </section>
 
