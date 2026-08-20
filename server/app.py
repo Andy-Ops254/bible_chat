@@ -252,15 +252,15 @@ def create_app():
 
 app = create_app()
 with app.app_context():
-    try:
-        db.create_all()
-        print("Database tables created successfully")
-    except Exception as e:
-        print(f"Database init error: {e}")
+    # try:
+    #     db.create_all()
+    #     print("Database tables created successfully")
+    # except Exception as e:
+    #     print(f"Database init error: {e}")
 
-if __name__ == "__main__":
-    # Render provides a PORT environment variable, locally it will use 5555
-    port = int(os.environ.get("PORT", 5555))
-    
-    # host='0.0.0.0' is REQUIRED for Render
-    app.run(host='0.0.0.0', port=port, debug=True)
+    if __name__ == "__main__":
+        # Render provides a PORT environment variable, locally it will use 5555
+        port = int(os.environ.get("PORT", 5555))
+        
+        # host='0.0.0.0' is REQUIRED for Render
+        app.run(host='0.0.0.0', port=port, debug=True)
